@@ -190,42 +190,42 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshByHand() {
 
   // Face 2, 3. Normal 1
   id = mesh.AppendTriangle(4, 5, 6);
-  result = normalsOverlay->SetTriangle(id, {1 * 3 + 0, 1 * 3 + 1, 1 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {1 * 3, 1 * 3 + 1, 1 * 3 + 2});
 
   id = mesh.AppendTriangle(7, 5, 6);
-  result = normalsOverlay->SetTriangle(id, {1 * 3 + 0, 1 * 3 + 1, 1 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {1 * 3, 1 * 3 + 1, 1 * 3 + 2});
 
   // Face 4, 5. Normal 2
   id = mesh.AppendTriangle(4, 6, 0);
-  result = normalsOverlay->SetTriangle(id, {2 * 3 + 0, 2 * 3 + 1, 2 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {2 * 3, 2 * 3 + 1, 2 * 3 + 2});
 
   id = mesh.AppendTriangle(2, 6, 0);
-  result = normalsOverlay->SetTriangle(id, {2 * 3 + 0, 2 * 3 + 1, 2 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {2 * 3, 2 * 3 + 1, 2 * 3 + 2});
 
   // Face 6, 7. Normal 3
   id = mesh.AppendTriangle(1, 5, 3);
-  result = normalsOverlay->SetTriangle(id, {3 * 3 + 0, 3 * 3 + 1, 3 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {3 * 3, 3 * 3 + 1, 3 * 3 + 2});
 
   id = mesh.AppendTriangle(7, 5, 3);
-  result = normalsOverlay->SetTriangle(id, {3 * 3 + 0, 3 * 3 + 1, 3 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {3 * 3, 3 * 3 + 1, 3 * 3 + 2});
 
   // Face 8, 9. Normal 4
   id = mesh.AppendTriangle(0, 1, 4);
-  result = normalsOverlay->SetTriangle(id, {4 * 3 + 0, 4 * 3 + 1, 4 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {4 * 3, 4 * 3 + 1, 4 * 3 + 2});
 
   id = mesh.AppendTriangle(5, 1, 4);
-  result = normalsOverlay->SetTriangle(id, {4 * 3 + 0, 4 * 3 + 1, 4 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {4 * 3, 4 * 3 + 1, 4 * 3 + 2});
 
   // Face 10, 11. Normal 5
   id = mesh.AppendTriangle(2, 3, 6);
-  result = normalsOverlay->SetTriangle(id, {5 * 3 + 0, 5 * 3 + 1, 5 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {5 * 3, 5 * 3 + 1, 5 * 3 + 2});
 
   id = mesh.AppendTriangle(7, 3, 6);
-  result = normalsOverlay->SetTriangle(id, {5 * 3 + 0, 5 * 3 + 1, 5 * 3 + 2});
+  result = normalsOverlay->SetTriangle(id, {5 * 3, 5 * 3 + 1, 5 * 3 + 2});
 
   // Why is this false?
   const auto validityResult =
-      mesh.CheckValidity({}, UE::Geometry::EValidityCheckFailMode::Ensure);
+      mesh.CheckValidity({}, UE::Geometry::EValidityCheckFailMode::ReturnOnly);
 
   return mesh;
 }

@@ -31,8 +31,8 @@ public:
   virtual void Tick(float DeltaTime) override;
 
 private:
-  UE::Geometry::FDynamicMesh3 RegenerateMesh();
-  UE::Geometry::FDynamicMesh3 RegenerateMesh2();
+  UE::Geometry::FDynamicMesh3 RegenerateMeshBasedOnObj();
+  UE::Geometry::FDynamicMesh3 RegenerateMeshByHand();
   void UpdateMesh(UE::Geometry::FDynamicMesh3 mesh);
 
   UE::Geometry::FDynamicMesh3 SourceMesh;
