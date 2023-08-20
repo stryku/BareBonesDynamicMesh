@@ -22,7 +22,7 @@ void AMyActor::BeginPlay() {
 
 void AMyActor::PostLoad() {
   Super::PostLoad();
-  const auto mesh = RegenerateMeshBasedOnObj();
+  const auto mesh = RegenerateMeshByHand2();
   UpdateMesh(mesh);
 }
 
@@ -144,7 +144,7 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshBasedOnObj() {
   const auto validityResult =
       mesh.CheckValidity({}, UE::Geometry::EValidityCheckFailMode::Ensure);
 
-   mesh.ReverseOrientation();
+  mesh.ReverseOrientation();
   //  UE::Geometry::FMeshNormals::InitializeOverlayToPerTriangleNormals(
   //      mesh.Attributes()->PrimaryNormals());
 
@@ -265,11 +265,11 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshByHand2() {
   }
 
   // Face 0, 1. Normal 0
-  id = mesh.AppendTriangle(0, 2, 3);
-  result = normalsOverlay->SetTriangle(id, {0, 1, 2});
+  // id = mesh.AppendTriangle(0, 2, 3);
+  // result = normalsOverlay->SetTriangle(id, {0, 1, 2});
 
-  id = mesh.AppendTriangle(0, 3, 1);
-  result = normalsOverlay->SetTriangle(id, {3, 4, 5});
+  // id = mesh.AppendTriangle(0, 3, 1);
+  // result = normalsOverlay->SetTriangle(id, {3, 4, 5});
 
   // Face 2, 3. Normal 1
   id = mesh.AppendTriangle(4, 6, 7);
@@ -279,32 +279,36 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshByHand2() {
   result = normalsOverlay->SetTriangle(id, {1 * 6 + 3, 1 * 6 + 4, 1 * 6 + 5});
 
   // Face 4, 5. Normal 2
-  id = mesh.AppendTriangle(0, 2, 6);
-  result = normalsOverlay->SetTriangle(id, {2 * 6, 2 * 6 + 1, 2 * 6 + 2});
+  // id = mesh.AppendTriangle(0, 2, 6);
+  // result = normalsOverlay->SetTriangle(id, {2 * 6, 2 * 6 + 1, 2 * 6 + 2});
 
-  id = mesh.AppendTriangle(0, 6, 4);
-  result = normalsOverlay->SetTriangle(id, {2 * 6 + 3, 2 * 6 + 4, 2 * 6 + 5});
+  // id = mesh.AppendTriangle(0, 6, 4);
+  // result = normalsOverlay->SetTriangle(id, {2 * 6 + 3, 2 * 6 + 4, 2 * 6 +
+  // 5});
 
-  // Face 6, 7. Normal 3
-  id = mesh.AppendTriangle(1, 3, 7);
-  result = normalsOverlay->SetTriangle(id, {3 * 6, 3 * 6 + 1, 3 * 6 + 2});
+  //// Face 6, 7. Normal 3
+  // id = mesh.AppendTriangle(1, 3, 7);
+  // result = normalsOverlay->SetTriangle(id, {3 * 6, 3 * 6 + 1, 3 * 6 + 2});
 
-  id = mesh.AppendTriangle(1, 7, 5);
-  result = normalsOverlay->SetTriangle(id, {3 * 6 + 3, 3 * 6 + 4, 3 * 6 + 5});
+  // id = mesh.AppendTriangle(1, 7, 5);
+  // result = normalsOverlay->SetTriangle(id, {3 * 6 + 3, 3 * 6 + 4, 3 * 6 +
+  // 5});
 
-  // Face 8, 9. Normal 4
-  id = mesh.AppendTriangle(0, 4, 5);
-  result = normalsOverlay->SetTriangle(id, {4 * 6, 4 * 6 + 1, 4 * 6 + 2});
+  //// Face 8, 9. Normal 4
+  // id = mesh.AppendTriangle(0, 4, 5);
+  // result = normalsOverlay->SetTriangle(id, {4 * 6, 4 * 6 + 1, 4 * 6 + 2});
 
-  id = mesh.AppendTriangle(0, 5, 1);
-  result = normalsOverlay->SetTriangle(id, {4 * 6 + 3, 4 * 6 + 4, 4 * 6 + 5});
+  // id = mesh.AppendTriangle(0, 5, 1);
+  // result = normalsOverlay->SetTriangle(id, {4 * 6 + 3, 4 * 6 + 4, 4 * 6 +
+  // 5});
 
-  // Face 10, 11. Normal 5
-  id = mesh.AppendTriangle(2, 6, 7);
-  result = normalsOverlay->SetTriangle(id, {5 * 6, 5 * 6 + 1, 5 * 6 + 2});
+  //// Face 10, 11. Normal 5
+  // id = mesh.AppendTriangle(2, 6, 7);
+  // result = normalsOverlay->SetTriangle(id, {5 * 6, 5 * 6 + 1, 5 * 6 + 2});
 
-  id = mesh.AppendTriangle(2, 7, 3);
-  result = normalsOverlay->SetTriangle(id, {5 * 6 + 3, 5 * 6 + 4, 5 * 6 + 5});
+  // id = mesh.AppendTriangle(2, 7, 3);
+  // result = normalsOverlay->SetTriangle(id, {5 * 6 + 3, 5 * 6 + 4, 5 * 6 +
+  // 5});
 
   // mesh.ReverseOrientation();
   // UE::Geometry::FMeshNormals::InitializeOverlayToPerTriangleNormals(
