@@ -33,6 +33,8 @@ public:
 private:
   UE::Geometry::FDynamicMesh3 RegenerateMeshBasedOnObj();
   UE::Geometry::FDynamicMesh3 RegenerateMeshByHand();
+  UE::Geometry::FDynamicMesh3 RegenerateMeshByHand2();
+  UE::Geometry::FDynamicMesh3 RegenerateMeshByHandRightHand();
   void UpdateMesh(UE::Geometry::FDynamicMesh3 mesh);
 
   UE::Geometry::FDynamicMesh3 SourceMesh;

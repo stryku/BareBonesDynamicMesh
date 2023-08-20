@@ -22,7 +22,7 @@ void AMyActor::BeginPlay() {
 
 void AMyActor::PostLoad() {
   Super::PostLoad();
-  const auto mesh = RegenerateMeshByHand();
+  const auto mesh = RegenerateMeshByHandRightHand();
   UpdateMesh(mesh);
 }
 
@@ -222,6 +222,214 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshByHand() {
 
   id = mesh.AppendTriangle(7, 3, 6);
   result = normalsOverlay->SetTriangle(id, {5 * 3, 5 * 3 + 1, 5 * 3 + 2});
+
+  // Why is this false?
+  const auto validityResult =
+      mesh.CheckValidity({}, UE::Geometry::EValidityCheckFailMode::ReturnOnly);
+
+  return mesh;
+}
+
+UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshByHand2() {
+
+  UE::Geometry::FDynamicMesh3 mesh;
+  mesh.EnableAttributes();
+
+  UE::Geometry::FDynamicMeshNormalOverlay *normalsOverlay =
+      mesh.Attributes()->PrimaryNormals();
+
+  const std::array vertices{FVector3d(-1, -1, -1), FVector3d(1, -1, -1),
+                            FVector3d(-1, -1, 1),  FVector3d(1, -1, 1),
+                            FVector3d(-1, 1, -1),  FVector3d(1, 1, -1),
+                            FVector3d(-1, 1, 1),   FVector3d(1, 1, 1)};
+
+  const std::array normals{FVector3f(0, -1, 0), FVector3f(0, 1, 0),
+                           FVector3f(-1, 0, 0), FVector3f(1, 0, 0),
+                           FVector3f(0, 0, -1), FVector3f(0, 0, 1)};
+
+  [[maybe_unused]] int32 id;
+  [[maybe_unused]] UE::Geometry::EMeshResult result;
+
+  for (auto vertex : vertices) {
+    mesh.AppendVertex(vertex * 100);
+  }
+
+  for (auto normal : normals) {
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+  }
+
+  // Face 0, 1. Normal 0
+  id = mesh.AppendTriangle(0, 2, 3);
+  result = normalsOverlay->SetTriangle(id, {0, 1, 2});
+
+  id = mesh.AppendTriangle(0, 3, 1);
+  result = normalsOverlay->SetTriangle(id, {3, 4, 5});
+
+  // Face 2, 3. Normal 1
+  id = mesh.AppendTriangle(4, 6, 7);
+  result = normalsOverlay->SetTriangle(id, {1 * 6, 1 * 6 + 1, 1 * 6 + 2});
+
+  id = mesh.AppendTriangle(4, 7, 5);
+  result = normalsOverlay->SetTriangle(id, {1 * 6 + 3, 1 * 6 + 4, 1 * 6 + 5});
+
+  // Face 4, 5. Normal 2
+  id = mesh.AppendTriangle(0, 2, 6);
+  result = normalsOverlay->SetTriangle(id, {2 * 6, 2 * 6 + 1, 2 * 6 + 2});
+
+  id = mesh.AppendTriangle(0, 6, 4);
+  result = normalsOverlay->SetTriangle(id, {2 * 6 + 3, 2 * 6 + 4, 2 * 6 + 5});
+
+  // Face 6, 7. Normal 3
+  id = mesh.AppendTriangle(1, 3, 7);
+  result = normalsOverlay->SetTriangle(id, {3 * 6, 3 * 6 + 1, 3 * 6 + 2});
+
+  id = mesh.AppendTriangle(1, 7, 5);
+  result = normalsOverlay->SetTriangle(id, {3 * 6 + 3, 3 * 6 + 4, 3 * 6 + 5});
+
+  // Face 8, 9. Normal 4
+  id = mesh.AppendTriangle(0, 4, 5);
+  result = normalsOverlay->SetTriangle(id, {4 * 6, 4 * 6 + 1, 4 * 6 + 2});
+
+  id = mesh.AppendTriangle(0, 5, 1);
+  result = normalsOverlay->SetTriangle(id, {4 * 6 + 3, 4 * 6 + 4, 4 * 6 + 5});
+
+  // Face 10, 11. Normal 5
+  id = mesh.AppendTriangle(2, 6, 7);
+  result = normalsOverlay->SetTriangle(id, {5 * 6, 5 * 6 + 1, 5 * 6 + 2});
+
+  id = mesh.AppendTriangle(2, 7, 3);
+  result = normalsOverlay->SetTriangle(id, {5 * 6 + 3, 5 * 6 + 4, 5 * 6 + 5});
+
+  // mesh.ReverseOrientation();
+  // UE::Geometry::FMeshNormals::InitializeOverlayToPerTriangleNormals(
+  //    mesh.Attributes()->PrimaryNormals());
+
+  // Why is this false?
+  const auto validityResult =
+      mesh.CheckValidity({}, UE::Geometry::EValidityCheckFailMode::ReturnOnly);
+
+  return mesh;
+}
+
+UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshByHandRightHand() {
+
+  UE::Geometry::FDynamicMesh3 mesh;
+  mesh.EnableAttributes();
+
+  UE::Geometry::FDynamicMeshNormalOverlay *normalsOverlay =
+      mesh.Attributes()->PrimaryNormals();
+
+  const std::array vertices{FVector3d(-1, -1, -1), FVector3d(1, -1, -1),
+                            FVector3d(-1, -1, 1),  FVector3d(1, -1, 1),
+                            FVector3d(-1, 1, -1),  FVector3d(1, 1, -1),
+                            FVector3d(-1, 1, 1),   FVector3d(1, 1, 1)};
+
+  const std::array normals{FVector3f(0, -1, 0), FVector3f(0, 1, 0),
+                           FVector3f(-1, 0, 0), FVector3f(1, 0, 0),
+                           FVector3f(0, 0, -1), FVector3f(0, 0, 1)};
+
+  [[maybe_unused]] int32 id;
+  [[maybe_unused]] UE::Geometry::EMeshResult result;
+
+  for (auto vertex : vertices) {
+    mesh.AppendVertex(vertex * 100);
+  }
+
+  for (auto normal : normals) {
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+    normalsOverlay->AppendElement(normal);
+  }
+
+  const auto fixTriangle = [&](int32 v0, int32 v1, int32 v2) {
+    const FVector3d vertex0 = vertices[v0];
+    const FVector3d vertex1 = vertices[v1];
+    const FVector3d vertex2 = vertices[v2];
+
+    const auto normal =
+        UE::Geometry::VectorUtil::Normal(vertex0, vertex1, vertex2);
+    const auto vertex0100 = vertex0 * 100;
+    const auto added = vertex0100 + normal;
+
+    const auto midPoint = (vertex0 + vertex1 + vertex2) / 3.0f;
+
+    const auto dot = normal.Dot(midPoint);
+    if (dot < 0) {
+      // Need to reverse normal
+      return UE::Geometry::FIndex3i(v0, v2, v1);
+    } else {
+      // Cool normal
+      return UE::Geometry::FIndex3i(v0, v1, v2);
+    }
+  };
+
+  // Face 0, 1. Normal 0
+  auto fixed = fixTriangle(0, 2, 3);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {0, 1, 2});
+
+  fixed = fixTriangle(0, 3, 1);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {3, 4, 5});
+
+  //// Face 2, 3. Normal 1
+  fixed = fixTriangle(4, 6, 7);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {1 * 6, 1 * 6 + 1, 1 * 6 + 2});
+
+  fixed = fixTriangle(4, 7, 5);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {1 * 6 + 3, 1 * 6 + 4, 1 * 6 + 5});
+
+  // Face 4, 5. Normal 2
+  fixed = fixTriangle(0, 2, 6);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {2 * 6, 2 * 6 + 1, 2 * 6 + 2});
+
+  fixed = fixTriangle(0, 6, 4);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {2 * 6 + 3, 2 * 6 + 4, 2 * 6 + 5});
+
+  // Face 6, 7. Normal 3
+  fixed = fixTriangle(1, 3, 7);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {3 * 6, 3 * 6 + 1, 3 * 6 + 2});
+
+  fixed = fixTriangle(1, 7, 5);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {3 * 6 + 3, 3 * 6 + 4, 3 * 6 + 5});
+
+  // Face 8, 9. Normal 4
+  fixed = fixTriangle(0, 4, 5);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {4 * 6, 4 * 6 + 1, 4 * 6 + 2});
+
+  fixed = fixTriangle(0, 5, 1);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {4 * 6 + 3, 4 * 6 + 4, 4 * 6 + 5});
+
+  // Face 10, 11. Normal 5
+  fixed = fixTriangle(2, 6, 7);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {5 * 6, 5 * 6 + 1, 5 * 6 + 2});
+
+  fixed = fixTriangle(2, 7, 3);
+  id = mesh.AppendTriangle(fixed[0], fixed[1], fixed[2]);
+  result = normalsOverlay->SetTriangle(id, {5 * 6 + 3, 5 * 6 + 4, 5 * 6 + 5});
+
+  // mesh.ReverseOrientation();
+  // UE::Geometry::FMeshNormals::InitializeOverlayToPerTriangleNormals(
+  //    mesh.Attributes()->PrimaryNormals());
 
   // Why is this false?
   const auto validityResult =
