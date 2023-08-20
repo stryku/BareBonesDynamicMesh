@@ -22,7 +22,7 @@ void AMyActor::BeginPlay() {
 
 void AMyActor::PostLoad() {
   Super::PostLoad();
-  const auto mesh = RegenerateMeshByHandRightHand();
+  const auto mesh = RegenerateMeshBasedOnObj();
   UpdateMesh(mesh);
 }
 
@@ -126,12 +126,12 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshBasedOnObj() {
 
     auto result = normalsOverlay->SetTriangle(
         tidOne, UE::Geometry::FIndex3i(3 * (triOne.a.normal - 1),
-                                       3 * (triOne.b.normal - 1) + 1,
-                                       3 * (triOne.c.normal - 1) + 2));
+                                       3 * (triOne.b.normal - 1),
+                                       3 * (triOne.c.normal - 1)));
     result = normalsOverlay->SetTriangle(
         tidOne, UE::Geometry::FIndex3i(3 * (triTwo.a.normal - 1),
-                                       3 * (triTwo.b.normal - 1) + 1,
-                                       3 * (triTwo.c.normal - 1) + 2));
+                                       3 * (triTwo.b.normal - 1),
+                                       3 * (triTwo.c.normal - 1)));
 
     // UVs->SetTriangle(tidOne, UE::Geometry::FIndex3i(triOne.a.textCoort - 1,
     //                                                 triOne.b.textCoort - 1,
@@ -144,9 +144,9 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshBasedOnObj() {
   const auto validityResult =
       mesh.CheckValidity({}, UE::Geometry::EValidityCheckFailMode::Ensure);
 
-  mesh.ReverseOrientation();
-  UE::Geometry::FMeshNormals::InitializeOverlayToPerTriangleNormals(
-      mesh.Attributes()->PrimaryNormals());
+   mesh.ReverseOrientation();
+  //  UE::Geometry::FMeshNormals::InitializeOverlayToPerTriangleNormals(
+  //      mesh.Attributes()->PrimaryNormals());
 
   return mesh;
 }
@@ -365,10 +365,10 @@ UE::Geometry::FDynamicMesh3 AMyActor::RegenerateMeshByHandRightHand() {
 
     const auto dot = normal.Dot(midPoint);
     if (dot < 0) {
-      // Need to reverse normal
+      // Need to reverse normal by changing order of the vertices
       return UE::Geometry::FIndex3i(v0, v2, v1);
     } else {
-      // Cool normal
+      // Normal points out of the cube
       return UE::Geometry::FIndex3i(v0, v1, v2);
     }
   };
